@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from uuid import UUID
+from typing import Optional, List
 from app.models.user import UserRole
 
 class UserBase(BaseModel):
@@ -12,6 +13,10 @@ class UserCreate(UserBase):
 
 class UserResponse(UserBase):
     id: UUID
+    languages: Optional[List[str]] = None
+    hourly_rate: Optional[str] = None
+    is_available: Optional[bool] = True
+    company_id: Optional[UUID] = None
 
     class Config:
         from_attributes = True
