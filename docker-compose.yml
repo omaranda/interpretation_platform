@@ -1,0 +1,148 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: callcenter-postgres
+    environment:
+      POSTGRES_USER: callcenter
+      POSTGRES_PASSWORD: callcenter123
+      POSTGRES_DB: callcenter
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U callcenter"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - callcenter-network
+    restart: unless-stopped
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: callcenter-backend
+    environment:
+      DATABASE_URL: postgresql://callcenter:callcenter123@postgres:5432/callcenter
+      SECRET_KEY: ${SECRET_KEY:-your-secret-key-change-in-production}
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - callcenter-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Next.js Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: callcenter-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_JITSI_DOMAIN: localhost:8443
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - callcenter-network
+    restart: unless-stopped
+
+  # Jitsi Meet - Web Interface
+  jitsi-web:
+    image: jitsi/web:stable-9258
+    container_name: callcenter-jitsi-web
+    env_file: ./jitsi-meet/.env
+    environment:
+      - ENABLE_LETSENCRYPT=0
+      - DISABLE_HTTPS=1
+      - ENABLE_HTTP_REDIRECT=0
+      - PUBLIC_URL=http://localhost:8443
+    ports:
+      - "8443:80"
+      - "8444:443"
+    volumes:
+      - ./jitsi-meet/web:/config:Z
+      - ./jitsi-meet/transcripts:/usr/share/jitsi-meet/transcripts:Z
+    networks:
+      callcenter-network:
+        aliases:
+          - meet.jitsi
+    restart: unless-stopped
+    depends_on:
+      - jitsi-prosody
+      - jitsi-jicofo
+      - jitsi-jvb
+
+  # Jitsi Meet - XMPP Server (Prosody)
+  jitsi-prosody:
+    image: jitsi/prosody:stable-9258
+    container_name: callcenter-jitsi-prosody
+    env_file: ./jitsi-meet/.env
+    expose:
+      - "5222"
+      - "5347"
+      - "5280"
+    volumes:
+      - ./jitsi-meet/prosody/config:/config:Z
+      - ./jitsi-meet/prosody/prosody-plugins-custom:/prosody-plugins-custom:Z
+    networks:
+      callcenter-network:
+        aliases:
+          - xmpp.meet.jitsi
+    restart: unless-stopped
+
+  # Jitsi Meet - Conference Focus (Jicofo)
+  jitsi-jicofo:
+    image: jitsi/jicofo:stable-9258
+    container_name: callcenter-jitsi-jicofo
+    env_file: ./jitsi-meet/.env
+    volumes:
+      - ./jitsi-meet/jicofo:/config:Z
+    networks:
+      - callcenter-network
+    restart: unless-stopped
+    depends_on:
+      - jitsi-prosody
+
+  # Jitsi Meet - Video Bridge (JVB)
+  jitsi-jvb:
+    image: jitsi/jvb:stable-9258
+    container_name: callcenter-jitsi-jvb
+    env_file: ./jitsi-meet/.env
+    ports:
+      - "10000:10000/udp"
+      - "4443:4443"
+    volumes:
+      - ./jitsi-meet/jvb:/config:Z
+    networks:
+      - callcenter-network
+    restart: unless-stopped
+    depends_on:
+      - jitsi-prosody
+
+networks:
+  callcenter-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

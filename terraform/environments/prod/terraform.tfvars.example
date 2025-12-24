@@ -1,0 +1,45 @@
+# Production Environment Configuration
+# Copy this file to terraform.tfvars and fill in the values
+
+# General
+project_name = "translation-platform"
+environment  = "prod"
+aws_region   = "us-east-1"
+
+# Networking
+vpc_cidr = "10.0.0.0/16"
+az_count = 2
+
+# Database
+database_name     = "translation_platform"
+database_username = "dbadmin"
+database_password = "CHANGE_ME_SECURE_PASSWORD"  # Use AWS Secrets Manager in production
+
+# Instance sizes for production
+rds_instance_class        = "db.t3.small"
+rds_allocated_storage     = 50
+rds_backup_retention_days = 14
+
+# Application Configuration
+jwt_secret_key = "CHANGE_ME_RANDOM_SECRET_KEY"  # Generate with: openssl rand -base64 32
+frontend_url   = "app.yourdomain.com"
+backend_url    = "api.yourdomain.com"
+jitsi_domain   = "meet.yourdomain.com"
+
+# SSL Certificate (create in AWS Certificate Manager first)
+acm_certificate_arn = "arn:aws:acm:us-east-1:ACCOUNT_ID:certificate/CERTIFICATE_ID"
+
+# ECS Service Scaling - Production
+backend_cpu    = 1024  # 1 vCPU
+backend_memory = 2048  # 2 GB
+backend_count  = 2     # 2 instances for HA
+
+frontend_cpu    = 512  # 0.5 vCPU
+frontend_memory = 1024 # 1 GB
+frontend_count  = 2    # 2 instances for HA
+
+jitsi_cpu    = 2048  # 2 vCPU
+jitsi_memory = 4096  # 4 GB
+
+# Logging
+log_retention_days = 30

@@ -1,0 +1,9 @@
+{
+  "name": "Call Center Platform",
+  "short_name": "Call Center",
+  "description": "Professional call center management system",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9"
+}
