@@ -135,15 +135,6 @@ Ultra-simplified 5-minute setup guide:
 - Common commands
 - Troubleshooting tips
 
-#### CLAUDE.md
-Developer reference for AI assistance:
-- Project overview
-- Architecture details
-- Development commands (Docker and manual)
-- Core API endpoints
-- Key components
-- Integration points
-
 ## Architecture
 
 ```
@@ -281,8 +272,6 @@ interpretation_platform/
     ├── README.md            # Main documentation
     ├── DOCKER.md            # Docker deployment guide
     ├── QUICKSTART.md        # 5-minute setup guide
-    ├── CLAUDE.md            # Developer reference
-    └── SOW.md               # Original statement of work
 ```
 
 ## Next Steps
@@ -332,7 +321,7 @@ interpretation_platform/
 - **Frontend**: 15+ files (components, pages, utilities, config)
 - **Backend**: 15+ files (API, models, services, config)
 - **Infrastructure**: 5 files (Dockerfiles, docker-compose, stack.sh)
-- **Documentation**: 5 files (README, DOCKER, QUICKSTART, CLAUDE, this file)
+- **Documentation**: 5 files (README, DOCKER, QUICKSTART, this file)
 
 **Total**: 40+ files across the entire stack
 

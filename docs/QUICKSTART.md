@@ -132,7 +132,6 @@ docker compose restart postgres
 
 - Full README: [README.md](README.md)
 - Docker Guide: [DOCKER.md](DOCKER.md)
-- Architecture: [CLAUDE.md](CLAUDE.md)
 
 ## Stopping the Application
 

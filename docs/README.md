@@ -23,22 +23,16 @@ Welcome to the Translation Platform documentation. This directory contains all t
    - Troubleshooting video issues
    - Advanced features
 
-3. **[CLAUDE.md](CLAUDE.md)** - Developer Reference
-   - Project commands
-   - Architecture overview
-   - Development workflow
-   - Quick reference
-
-4. **[TEST_ACCOUNTS.md](TEST_ACCOUNTS.md)** - Test Accounts and Credentials
+3. **[TEST_ACCOUNTS.md](TEST_ACCOUNTS.md)** - Test Accounts and Credentials
    - Company accounts
    - Translator accounts
    - Employee accounts
    - Test scenarios
    - Database seeding instructions
 
-5. **[TESTING_GUIDE.md](TESTING_GUIDE.md)** - Testing Guide
+4. **[TESTING_GUIDE.md](TESTING_GUIDE.md)** - Testing Guide
 
-6. **[REGISTRATION_GUIDE.md](REGISTRATION_GUIDE.md)** - Registration Guide
+5. **[REGISTRATION_GUIDE.md](REGISTRATION_GUIDE.md)** - Registration Guide
    - Translator self-service registration
    - Employee registration process
    - Company registration
@@ -50,7 +44,7 @@ Welcome to the Translation Platform documentation. This directory contains all t
    - API testing examples
    - Database verification commands
 
-7. **[AWS_DEPLOYMENT.md](AWS_DEPLOYMENT.md)** - AWS Production Deployment
+6. **[AWS_DEPLOYMENT.md](AWS_DEPLOYMENT.md)** - AWS Production Deployment
    - Complete AWS deployment guide
    - Terraform infrastructure as code
    - ECS Fargate container orchestration
@@ -65,7 +59,7 @@ Welcome to the Translation Platform documentation. This directory contains all t
 
 ### Infrastructure Documentation
 
-8. **[Terraform README](../terraform/README.md)** - Infrastructure as Code
+7. **[Terraform README](../terraform/README.md)** - Infrastructure as Code
    - Terraform module documentation
    - AWS resource overview
    - Environment configurations
@@ -88,7 +82,6 @@ More documentation files will be added here as the platform grows:
 - **Test Accounts**: See [TEST_ACCOUNTS.md](TEST_ACCOUNTS.md) for login credentials
 
 ### For Developers
-- **Setup**: See [CLAUDE.md](CLAUDE.md)
 - **API Reference**: http://localhost:8000/docs (when running)
 - **Database Schema**: [TRANSLATION_PLATFORM.md § Database Schema](TRANSLATION_PLATFORM.md#database-schema)
 

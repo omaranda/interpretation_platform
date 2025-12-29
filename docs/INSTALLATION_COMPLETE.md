@@ -205,7 +205,6 @@ npm audit fix
 - **[README.md](README.md)** - Main documentation
 - **[QUICKSTART.md](QUICKSTART.md)** - 5-minute setup guide
 - **[DOCKER.md](DOCKER.md)** - Docker deployment guide
-- **[CLAUDE.md](CLAUDE.md)** - Developer reference
 
 ## Architecture Overview
 
