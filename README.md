@@ -1,4 +1,4 @@
-# Translation Platform
+# Real‑Time Translation Booking & Video Conferencing
 
 A comprehensive translation booking and video conferencing platform connecting companies with professional translators. Built with Next.js, FastAPI, PostgreSQL, and Jitsi Meet.
 
